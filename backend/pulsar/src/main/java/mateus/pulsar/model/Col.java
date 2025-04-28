@@ -3,21 +3,28 @@ package mateus.pulsar.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.FileWriter;
+import java.io.*;
 import java.io.IOException;
-import java.util.UUID;
 
 public class Col {
-    private String id;
+    private int id;
     private String name;
     private int order;
     private Card[] cards;
 
-    public Col(String name, int order) {
-        this.id = UUID.randomUUID().toString();
-        this.name = name;
-        this.order = order;
-        this.cards = new Card[0];
+    public Col(int id, String name, int order) {
+        this.id = id;
+        try (FileReader reader = new FileReader("col_" + id + ".json")) {
+            Gson gson = new Gson();
+            Col col = gson.fromJson(reader, Col.class);
+            this.name = col.name;
+            this.cards = col.cards;
+            this.order = col.order;
+        } catch (FileNotFoundException e) {
+            this.cards = new Card[0];
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addCard(Card card) {
@@ -44,4 +51,3 @@ public class Col {
         }
     }
 }
-
