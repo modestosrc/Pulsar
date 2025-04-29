@@ -1,5 +1,8 @@
 package mateus.pulsar.model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class Card {
     private String id;
     private String content;
@@ -15,6 +18,11 @@ public class Card {
 
     public String getContent() {
         return content;
+    }
+
+    public String getJson() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
     }
 
     public void setContent(String content) {

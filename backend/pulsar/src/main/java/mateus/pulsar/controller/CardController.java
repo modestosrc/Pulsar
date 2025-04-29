@@ -10,12 +10,16 @@ import mateus.pulsar.model.Card;
 import mateus.pulsar.model.Col;
 
 /**
- * CardController pode ser usado com:
+ * <h3>CardController pode ser usado com:</h3>
+ * <p>
  * - GET /card/get?col=0
+ * <p>
  * - POST /card/create?col=0
  * 
- * Com curl (exemplo):
+ * <h3>Com curl (exemplo):</h3>
+ * <p>
  * - curl localhost:8080/card/get?col=0 -H "Content-Type: text/plain"
+ * <p>
  * - curl localhost:8080/card/create?col=0 -H "Content-Type: text/plain" -d
  * "Card content"
  */
@@ -25,7 +29,7 @@ public class CardController {
 
     @GetMapping("/get")
     public String getCards(@RequestParam(value = "col", defaultValue = "0") String colN) {
-        Col col = new Col(Integer.parseInt(colN), "Col " + colN, 0);
+        Col col = new Col(Integer.parseInt(colN), "Col " + colN, "test_user", 0);
         return col.getCards();
     }
 
@@ -33,9 +37,29 @@ public class CardController {
     public void createCard(@RequestParam(value = "col", defaultValue = "0") String colN,
             @RequestBody String cardContent) {
         Card card = new Card(cardContent);
-        Col col = new Col(Integer.parseInt(colN), "Col " + colN, 0);
+        Col col = new Col(Integer.parseInt(colN), "Col " + colN, "test_user", 0);
         col.addCard(card);
         col.save();
         System.out.println("Card created in column " + colN + ": " + cardContent);
     }
+
+    @DeleteMapping("/delete")
+    public void deleteCard(@RequestParam(value = "col", defaultValue = "0") String colN,
+            @RequestParam(value = "index", defaultValue = "0") int index) {
+        Col col = new Col(Integer.parseInt(colN), "Col " + colN, "test_user", 0);
+        col.removeCard(index);
+        col.save();
+        System.out.println("Card deleted from column " + colN + ": index " + index);
+    }
+
+    @PutMapping("/update")
+    public void updateCard(@RequestParam(value = "col", defaultValue = "0") String colN,
+            @RequestParam(value = "index", defaultValue = "0") int index,
+            @RequestBody String newContent) {
+        Col col = new Col(Integer.parseInt(colN), "Col " + colN, "test_user", 0);
+        col.updateCard(index, newContent);
+        col.save();
+        System.out.println("Card updated in column " + colN + ": index " + index + ", new content: " + newContent);
+    }
+
 }
