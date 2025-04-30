@@ -74,6 +74,7 @@ public class Col {
         cards[index].setContent(newContent);
     }
 
+    // TODO: precisa da logica de mover entre colunas
     public void moveCard(int fromIndex, int toIndex) {
         if (fromIndex < 0 || fromIndex >= cards.length || toIndex < 0 || toIndex >= cards.length) {
             throw new IndexOutOfBoundsException("Invalid card index");
