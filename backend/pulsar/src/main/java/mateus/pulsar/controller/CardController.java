@@ -28,13 +28,15 @@ import mateus.pulsar.model.Col;
 public class CardController {
 
     @GetMapping("/get")
-    public String getCards(@RequestParam(value = "col", defaultValue = "0") String colN) {
+    public String getCards(
+            @RequestParam(value = "col", defaultValue = "0") String colN) {
         Col col = new Col(Integer.parseInt(colN), "Col " + colN, "test_user", 0);
         return col.getCards();
     }
 
     @PostMapping("/create")
-    public void createCard(@RequestParam(value = "col", defaultValue = "0") String colN,
+    public void createCard(
+            @RequestParam(value = "col", defaultValue = "0") String colN,
             @RequestBody String cardContent) {
         Card card = new Card(cardContent);
         Col col = new Col(Integer.parseInt(colN), "Col " + colN, "test_user", 0);
@@ -44,7 +46,8 @@ public class CardController {
     }
 
     @DeleteMapping("/delete")
-    public void deleteCard(@RequestParam(value = "col", defaultValue = "0") String colN,
+    public void deleteCard(
+            @RequestParam(value = "col", defaultValue = "0") String colN,
             @RequestParam(value = "index", defaultValue = "0") int index) {
         Col col = new Col(Integer.parseInt(colN), "Col " + colN, "test_user", 0);
         col.removeCard(index);
@@ -53,13 +56,30 @@ public class CardController {
     }
 
     @PutMapping("/update")
-    public void updateCard(@RequestParam(value = "col", defaultValue = "0") String colN,
+    public void updateCard(
+            @RequestParam(value = "col", defaultValue = "0") String colN,
             @RequestParam(value = "index", defaultValue = "0") int index,
             @RequestBody String newContent) {
         Col col = new Col(Integer.parseInt(colN), "Col " + colN, "test_user", 0);
         col.updateCard(index, newContent);
         col.save();
         System.out.println("Card updated in column " + colN + ": index " + index + ", new content: " + newContent);
+    }
+
+    @PutMapping("/move")
+    public void movecard(
+            @RequestParam(value = "col") int coln,
+            @RequestParam(value = "newCol") int coln2,
+            @RequestParam(value = "index") int index,
+            @RequestParam(value = "newIndex") int newIndex) {
+        Col col = new Col(coln, "Col " + coln, "test_user", 0);
+        Col col2 = new Col(coln2, "Col " + coln2, "test_user", 0);
+        col2.addCard(col.getCard(index));
+        col2.moveCard((col2.getCardCount() - 1), newIndex);
+        col2.save();
+        col.removeCard(index);
+        col.save();
+        System.out.println("Card moved from column " + coln + ": index " + index + " to column " + coln2 + ": index " + newIndex);
     }
 
 }

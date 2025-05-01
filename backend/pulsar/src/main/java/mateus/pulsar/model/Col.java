@@ -49,6 +49,13 @@ public class Col {
         cards = newCards;
     }
 
+    public Card getCard(int index) {
+        if (index < 0 || index >= cards.length) {
+            throw new IndexOutOfBoundsException("Invalid card index");
+        }
+        return cards[index];
+    }
+
     public String getCards() {
         StringBuilder cardList = new StringBuilder();
         for (Card card : cards) {
@@ -74,7 +81,10 @@ public class Col {
         cards[index].setContent(newContent);
     }
 
-    // TODO: precisa da logica de mover entre colunas
+    public int getCardCount() {
+        return cards.length;
+    }
+
     public void moveCard(int fromIndex, int toIndex) {
         if (fromIndex < 0 || fromIndex >= cards.length || toIndex < 0 || toIndex >= cards.length) {
             throw new IndexOutOfBoundsException("Invalid card index");
@@ -97,8 +107,6 @@ public class Col {
             for (int i = 0; i < cards.length; i++) {
                 if (i == fromIndex)
                     continue;
-                if (pos == toIndex)
-                    pos++; // pula a posição onde o card será inserido
                 novoArray[pos++] = cards[i];
             }
 
