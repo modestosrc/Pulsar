@@ -21,7 +21,11 @@ declare -a TESTES_CREATE=(
     "Criando card na coluna 0 (Teste 1)|curl -X POST 'localhost:8080/card/create?col=0' -H 'Content-Type: text/plain' -d 'Teste 1'"
     "Criando card na coluna 1 (Teste 2)|curl -X POST 'localhost:8080/card/create?col=1' -H 'Content-Type: text/plain' -d 'Teste 2'"
     "Criando card na coluna 0 (Teste 3)|curl -X POST 'localhost:8080/card/create?col=0' -H 'Content-Type: text/plain' -d 'Teste 3'"
-    "Criando card na coluna 0 (Teste 4)|curl -X POST 'localhost:8080/card/create?col=0' -H 'Content-Type: text/plain' -d 'Teste 4'"
+    "Criando card na coluna 1 (Teste 4)|curl -X POST 'localhost:8080/card/create?col=1' -H 'Content-Type: text/plain' -d 'Teste 4'"
+    "Criando card na coluna 0 (Teste 5)|curl -X POST 'localhost:8080/card/create?col=0' -H 'Content-Type: text/plain' -d 'Teste 5'"
+    "Criando card na coluna 1 (Teste 6)|curl -X POST 'localhost:8080/card/create?col=1' -H 'Content-Type: text/plain' -d 'Teste 6'"
+    "Criando card na coluna 0 (Teste 7)|curl -X POST 'localhost:8080/card/create?col=0' -H 'Content-Type: text/plain' -d 'Teste 7'"
+    "Criando card na coluna 1 (Teste 8)|curl -X POST 'localhost:8080/card/create?col=1' -H 'Content-Type: text/plain' -d 'Teste 8'"
 )
 
 # Lista de testes para /card/get
@@ -38,8 +42,8 @@ declare -a TESTES_DELETE=(
 
 # Lista de testes para /card/update
 declare -a TESTES_UPDATE=(
-    "Atualizando card 0 da coluna 0|curl -X PUT 'localhost:8080/card/update?col=0&index=0' -H 'Content-Type: text/plain' -d 'Teste Atualizado'"
-    "Atualizando card 1 da coluna 1|curl -X PUT 'localhost:8080/card/update?col=1&index=1' -H 'Content-Type: text/plain' -d 'Teste Atualizado'"
+    "Atualizando card 0 da coluna 0|curl -X PUT 'localhost:8080/card/update?col=0&index=0' -H 'Content-Type: text/plain' -d 'Teste Atualizado 1'"
+    "Atualizando card 1 da coluna 1|curl -X PUT 'localhost:8080/card/update?col=1&index=1' -H 'Content-Type: text/plain' -d 'Teste Atualizado 2'"
 )
 
 # Lista de testes para /card/move

@@ -41,7 +41,6 @@ public class CardController {
         Card card = new Card(cardContent);
         Col col = new Col(Integer.parseInt(colN), "Col " + colN, "test_user", 0);
         col.addCard(card);
-        col.save();
         System.out.println("Card created in column " + colN + ": " + cardContent);
     }
 
@@ -51,7 +50,6 @@ public class CardController {
             @RequestParam(value = "index", defaultValue = "0") int index) {
         Col col = new Col(Integer.parseInt(colN), "Col " + colN, "test_user", 0);
         col.removeCard(index);
-        col.save();
         System.out.println("Card deleted from column " + colN + ": index " + index);
     }
 
@@ -62,7 +60,6 @@ public class CardController {
             @RequestBody String newContent) {
         Col col = new Col(Integer.parseInt(colN), "Col " + colN, "test_user", 0);
         col.updateCard(index, newContent);
-        col.save();
         System.out.println("Card updated in column " + colN + ": index " + index + ", new content: " + newContent);
     }
 
@@ -76,9 +73,7 @@ public class CardController {
         Col col2 = new Col(coln2, "Col " + coln2, "test_user", 0);
         col2.addCard(col.getCard(index));
         col2.moveCard((col2.getCardCount() - 1), newIndex);
-        col2.save();
         col.removeCard(index);
-        col.save();
         System.out.println("Card moved from column " + coln + ": index " + index + " to column " + coln2 + ": index " + newIndex);
     }
 

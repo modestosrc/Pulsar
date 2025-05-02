@@ -13,6 +13,17 @@ public class Col {
     private int order;
     private Card[] cards;
 
+    /**
+     * <p>
+     * Construtor da classe Col.
+     *
+     * @param id    id da coluna. Caso o id ja exista, o construtor irá
+     *              carregar os dados do arquivo JSON correspondente. Caso
+     *              não exista, um novo arquivo será criado.
+     * @param name  nome da coluna.
+     * @param user  usuário dono da coluna.
+     * @param order ordem da coluna.
+     */
     public Col(int id, String name, String user, int order) {
         this.id = id;
         this.name = name;
@@ -42,13 +53,28 @@ public class Col {
         }
     }
 
+    /**
+     * <p>
+     * Retorna o id da coluna.
+     *
+     * @param card card a ser adicionado.
+     * @return id da coluna.
+     */
     public void addCard(Card card) {
         Card[] newCards = new Card[cards.length + 1];
         System.arraycopy(cards, 0, newCards, 0, cards.length);
         newCards[cards.length] = card;
         cards = newCards;
+        this.save();
     }
 
+    /**
+     * <p>
+     * Retorna o card na posição index.
+     *
+     * @param index índice do card a ser retornado.
+     * @return Card na posição index.
+     */
     public Card getCard(int index) {
         if (index < 0 || index >= cards.length) {
             throw new IndexOutOfBoundsException("Invalid card index");
@@ -56,6 +82,12 @@ public class Col {
         return cards[index];
     }
 
+    /**
+     * <p>
+     * Retorna todos os cards da coluna em formato JSON.
+     *
+     * @return String com todos os cards em formato JSON.
+     */
     public String getCards() {
         StringBuilder cardList = new StringBuilder();
         for (Card card : cards) {
@@ -64,6 +96,12 @@ public class Col {
         return cardList.toString();
     }
 
+    /**
+     * <p>
+     * Remove um card da coluna.
+     *
+     * @param index índice do card a ser removido.
+     */
     public void removeCard(int index) {
         if (index < 0 || index >= cards.length) {
             throw new IndexOutOfBoundsException("Invalid card index");
@@ -72,19 +110,35 @@ public class Col {
         System.arraycopy(cards, 0, newCards, 0, index);
         System.arraycopy(cards, index + 1, newCards, index, cards.length - index - 1);
         cards = newCards;
+        this.save();
     }
 
+    /**
+     * <p>
+     * Atualiza o conteúdo de um card na coluna.
+     *
+     * @param index      índice do card a ser atualizado.
+     * @param newContent novo conteúdo do card.
+     */
     public void updateCard(int index, String newContent) {
         if (index < 0 || index >= cards.length) {
             throw new IndexOutOfBoundsException("Invalid card index");
         }
         cards[index].setContent(newContent);
+        this.save();
     }
 
     public int getCardCount() {
         return cards.length;
     }
 
+    /**
+     * <p>
+     * Move o card de de uma posição para outra na mesma coluna.
+     *
+     * @param fromIndex índice do card a ser movido.
+     * @param toIndex   índice para onde o card será movido.
+     */
     public void moveCard(int fromIndex, int toIndex) {
         if (fromIndex < 0 || fromIndex >= cards.length || toIndex < 0 || toIndex >= cards.length) {
             throw new IndexOutOfBoundsException("Invalid card index");
@@ -123,9 +177,17 @@ public class Col {
 
             cards = resultado;
         }
+        this.save();
     }
 
-    public void save() {
+    /**
+     *
+     * <p>
+     * Save deve ser chamado sempre que houver uma alteração na coluna.
+     * <p>
+     * Responsacel por salvar o estado atual da coluna em um arquivo JSON.
+     */
+    private void save() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(this);
         File userDir = new File(user);
