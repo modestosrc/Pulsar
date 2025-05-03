@@ -1,6 +1,25 @@
-
 #!/bin/bash
 
+API_URL="http://localhost:8080"
+USERNAME="usuario_teste"
+PASSWORD="senha_teste"
+
+# Obter token JWT
+echo "Realizando login para obter token..."
+JWT=$(curl -s -X POST "$API_URL/auth/login" \
+    -H "Content-Type: application/json" \
+    -d "{\"username\":\"$USERNAME\", \"password\":\"$PASSWORD\"}")
+
+if [[ -z "$JWT" ]]; then
+    echo "❌ Falha ao obter token JWT"
+    exit 1
+fi
+
+echo "✅ Token JWT obtido:"
+echo "$JWT"
+echo ""
+
+# Função para executar testes
 executar_teste() {
     local DESCRICAO=$1
     local COMANDO=$2
@@ -18,40 +37,32 @@ executar_teste() {
 
 # Lista de testes para /card/create
 declare -a TESTES_CREATE=(
-    "Criando card na coluna 0 (Teste 1)|curl -X POST 'localhost:8080/card/create?col=0' -H 'Content-Type: text/plain' -d 'Teste 1'"
-    "Criando card na coluna 1 (Teste 2)|curl -X POST 'localhost:8080/card/create?col=1' -H 'Content-Type: text/plain' -d 'Teste 2'"
-    "Criando card na coluna 0 (Teste 3)|curl -X POST 'localhost:8080/card/create?col=0' -H 'Content-Type: text/plain' -d 'Teste 3'"
-    "Criando card na coluna 1 (Teste 4)|curl -X POST 'localhost:8080/card/create?col=1' -H 'Content-Type: text/plain' -d 'Teste 4'"
-    "Criando card na coluna 0 (Teste 5)|curl -X POST 'localhost:8080/card/create?col=0' -H 'Content-Type: text/plain' -d 'Teste 5'"
-    "Criando card na coluna 1 (Teste 6)|curl -X POST 'localhost:8080/card/create?col=1' -H 'Content-Type: text/plain' -d 'Teste 6'"
-    "Criando card na coluna 0 (Teste 7)|curl -X POST 'localhost:8080/card/create?col=0' -H 'Content-Type: text/plain' -d 'Teste 7'"
-    "Criando card na coluna 1 (Teste 8)|curl -X POST 'localhost:8080/card/create?col=1' -H 'Content-Type: text/plain' -d 'Teste 8'"
+    "Criando card na coluna 0 (Teste 1)|curl -X POST '$API_URL/card/create?col=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste 1'"
+    "Criando card na coluna 1 (Teste 2)|curl -X POST '$API_URL/card/create?col=1' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste 2'"
 )
 
 # Lista de testes para /card/get
 declare -a TESTES_GET=(
-    "Obtendo cards da coluna 0|curl -X GET 'localhost:8080/card/get?col=0' -H 'Content-Type: text/plain'"
-    "Obtendo cards da coluna 1|curl -X GET 'localhost:8080/card/get?col=1' -H 'Content-Type: text/plain'"
+    "Obtendo cards da coluna 0|curl -X GET '$API_URL/card/get?col=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
+    "Obtendo cards da coluna 1|curl -X GET '$API_URL/card/get?col=1' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
 )
 
 # Lista de testes para /card/delete
 declare -a TESTES_DELETE=(
-    "Deletando card 0 da coluna 0|curl -X DELETE 'localhost:8080/card/delete?col=0&index=0' -H 'Content-Type: text/plain'"
-    "Deletando card 1 da coluna 1|curl -X DELETE 'localhost:8080/card/delete?col=1&index=1' -H 'Content-Type: text/plain'"
+    "Deletando card 0 da coluna 0|curl -X DELETE '$API_URL/card/delete?col=0&index=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
 )
 
 # Lista de testes para /card/update
 declare -a TESTES_UPDATE=(
-    "Atualizando card 0 da coluna 0|curl -X PUT 'localhost:8080/card/update?col=0&index=0' -H 'Content-Type: text/plain' -d 'Teste Atualizado 1'"
-    "Atualizando card 1 da coluna 1|curl -X PUT 'localhost:8080/card/update?col=1&index=1' -H 'Content-Type: text/plain' -d 'Teste Atualizado 2'"
+    "Atualizando card 0 da coluna 0|curl -X PUT '$API_URL/card/update?col=0&index=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste Atualizado 1'"
 )
 
 # Lista de testes para /card/move
 declare -a TESTES_MOVE=(
-    "Movendo card 0 da coluna 0 para coluna 1|curl -X PUT 'localhost:8080/card/move?col=0&newCol=1&index=0&newIndex=0' -H 'Content-Type: text/plain'"
-    "Movendo card 1 da coluna 1 para coluna 0|curl -X PUT 'localhost:8080/card/move?col=1&newCol=0&index=0&newIndex=0' -H 'Content-Type: text/plain'"
+    "Movendo card 0 da coluna 0 para coluna 1|curl -X PUT '$API_URL/card/move?col=0&newCol=1&index=0&newIndex=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
 )
 
+# Execução dos testes
 echo "Teste /card/create"
 for TESTE in "${TESTES_CREATE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
@@ -86,3 +97,4 @@ for TESTE in "${TESTES_MOVE[@]}"; do
     COMANDO="${TESTE##*|}"
     executar_teste "$DESCRICAO" "$COMANDO"
 done
+
