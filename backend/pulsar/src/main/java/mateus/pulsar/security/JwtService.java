@@ -12,6 +12,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.KeyAlgorithm;
 import io.jsonwebtoken.security.AeadAlgorithm;
 
+import mateus.pulsar.model.dto.AuthRequest;
+
 @Service
 public class JwtService {
 
@@ -19,9 +21,9 @@ public class JwtService {
     KeyAlgorithm<PublicKey, PrivateKey> alg = Jwts.KEY.RSA_OAEP_256;
     AeadAlgorithm enc = Jwts.ENC.A256GCM;
 
-    public String generateToken(Authentication authentication) {
+    public String generateToken(AuthRequest credentials) {
         return Jwts.builder()
-                .subject(authentication.getName())
+                .subject(credentials.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 1)) // 1 hora.
                 .encryptWith(pair.getPublic(), alg, enc)

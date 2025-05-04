@@ -1,8 +1,8 @@
 #!/bin/bash
 
 API_URL="http://localhost:8080"
-USERNAME="usuario_teste"
-PASSWORD="senha_teste"
+USERNAME="test_user"
+PASSWORD="1504"
 
 # Obter token JWT
 echo "Realizando login para obter token..."

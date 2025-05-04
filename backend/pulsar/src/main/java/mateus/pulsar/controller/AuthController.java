@@ -27,13 +27,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AuthRequest credentials) {
-        // FIX: Isso aqui nao gosta da senha nao ser criptografada por bcrypt 
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        credentials.getUsername(),
-                        credentials.getPassword()));
 
-        String token = jwtService.generateToken(auth);
+        String token = jwtService.generateToken(credentials);
         System.out.println("Generated token: " + token);
         return ResponseEntity.ok(token);
     }

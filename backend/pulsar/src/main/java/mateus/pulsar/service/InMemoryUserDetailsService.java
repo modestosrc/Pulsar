@@ -2,6 +2,7 @@ package mateus.pulsar.service;
 
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class InMemoryUserDetailsService implements UserDetailsService {
         // - Isso não deve ser feito em produção.
         return new User(
             "test_user",
-            "{noop}1504", // {noop} diz ao Spring que a senha não está codificada
+            new BCryptPasswordEncoder().encode("1504"),
             List.of(new SimpleGrantedAuthority("ROLE_USER"))
         );
     }
