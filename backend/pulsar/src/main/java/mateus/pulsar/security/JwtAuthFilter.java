@@ -35,6 +35,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String username;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("No token found in request");
             filterChain.doFilter(request, response);
             return;
         }

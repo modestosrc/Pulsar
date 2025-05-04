@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# HEADER
+echo ""
+echo "▄▖  ▜         ▌     ▌      ▌   ▄▖▄▖▄▖▄▖"
+echo "▙▌▌▌▐ ▛▘▀▌▛▘  ▛▌▀▌▛▘▙▘█▌▛▌▛▌▖  ▐ ▙▖▚ ▐ "
+echo "▌ ▙▌▐▖▄▌█▌▌   ▙▌█▌▙▖▛▖▙▖▌▌▙▌▖  ▐ ▙▖▄▌▐ "
+                                       
+
+
+
 API_URL="http://localhost:8080"
 USERNAME="test_user"
 PASSWORD="1504"
@@ -15,8 +24,7 @@ if [[ -z "$JWT" ]]; then
     exit 1
 fi
 
-echo "✅ Token JWT obtido:"
-echo "$JWT"
+echo "✅ Token JWT obtido!"
 echo ""
 
 # Função para executar testes
@@ -62,39 +70,79 @@ declare -a TESTES_MOVE=(
     "Movendo card 0 da coluna 0 para coluna 1|curl -X PUT '$API_URL/card/move?col=0&newCol=1&index=0&newIndex=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
 )
 
+# Contar numero de testes:
+NUM_TESTES_TOTAL=$(( ${#TESTES_CREATE[@]} + ${#TESTES_GET[@]} + ${#TESTES_DELETE[@]} + ${#TESTES_UPDATE[@]} + ${#TESTES_MOVE[@]} ))
+NUM_TESTES_SUCESSO=0
+
+print_line() {
+    echo "----------------------------------------"
+}
+
+
 # Execução dos testes
+print_line
 echo "Teste /card/create"
 for TESTE in "${TESTES_CREATE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
     executar_teste "$DESCRICAO" "$COMANDO"
+    if [[ $? -eq 0 ]]; then
+        ((NUM_TESTES_SUCESSO++))
+    fi
 done
 
+print_line
 echo "Teste /card/get"
 for TESTE in "${TESTES_GET[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
     executar_teste "$DESCRICAO" "$COMANDO"
+    if [[ $? -eq 0 ]]; then
+        ((NUM_TESTES_SUCESSO++))
+    fi
 done
 
+print_line
 echo "Teste /card/delete"
 for TESTE in "${TESTES_DELETE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
     executar_teste "$DESCRICAO" "$COMANDO"
+    if [[ $? -eq 0 ]]; then
+        ((NUM_TESTES_SUCESSO++))
+    fi
 done
 
+print_line
 echo "Teste /card/update"
 for TESTE in "${TESTES_UPDATE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
     executar_teste "$DESCRICAO" "$COMANDO"
+    if [[ $? -eq 0 ]]; then
+        ((NUM_TESTES_SUCESSO++))
+    fi
 done
 
+print_line
 echo "Teste /card/move"
 for TESTE in "${TESTES_MOVE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
     executar_teste "$DESCRICAO" "$COMANDO"
+    if [[ $? -eq 0 ]]; then
+        ((NUM_TESTES_SUCESSO++))
+    fi
 done
+
+# Resumo dos testes
+print_line
+echo "($NUM_TESTES_SUCESSO/$NUM_TESTES_TOTAL) testes passaram com sucesso."
+if [ $NUM_TESTES_SUCESSO -eq $NUM_TESTES_TOTAL ]; then
+    return_code=0
+else
+    return_code=1
+fi
+
+
 

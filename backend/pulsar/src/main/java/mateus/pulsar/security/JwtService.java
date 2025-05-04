@@ -22,12 +22,15 @@ public class JwtService {
     AeadAlgorithm enc = Jwts.ENC.A256GCM;
 
     public String generateToken(AuthRequest credentials) {
-        return Jwts.builder()
-                .subject(credentials.getUsername())
+        String username = credentials.getUsername();
+        String token = Jwts.builder()
+                .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 1)) // 1 hora.
                 .encryptWith(pair.getPublic(), alg, enc)
                 .compact();
+
+        return token;
     }
 
     public String extractUsername(String token) {
@@ -41,8 +44,8 @@ public class JwtService {
 
     public boolean isTokenValid(String token) {
         // TODO:
-        // - Implementar banco de usuários.
-        return extractUsername(token) == "test_user";
+        // - Implementar banco de usuários/tokens.
+        return true;
     }
 
     public boolean isTokenExpired(String token) {
