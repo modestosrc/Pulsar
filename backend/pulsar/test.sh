@@ -139,9 +139,9 @@ done
 print_line
 echo "($NUM_TESTES_SUCESSO/$NUM_TESTES_TOTAL) testes passaram com sucesso."
 if [ $NUM_TESTES_SUCESSO -eq $NUM_TESTES_TOTAL ]; then
-    return_code=0
+    exit 0
 else
-    return_code=1
+    exit 1
 fi
 
 
