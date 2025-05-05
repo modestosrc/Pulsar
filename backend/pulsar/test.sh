@@ -60,7 +60,7 @@ declare -a TESTES_GET=(
 
 # Lista de testes para /card/delete
 declare -a TESTES_DELETE=(
-    "Deletando card 0 da coluna 0|curl -X DELETE '$API_URL/card/delete?col=0&index=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
+    "Deletando card 0 da coluna 1|curl -X DELETE '$API_URL/card/delete?col=1&index=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
 )
 
 # Lista de testes para /card/update
@@ -99,14 +99,6 @@ for TESTE in "${TESTES_GET[@]}"; do
 done
 
 print_line
-echo "Teste /card/delete"
-for TESTE in "${TESTES_DELETE[@]}"; do
-    DESCRICAO="${TESTE%%|*}"
-    COMANDO="${TESTE##*|}"
-    executar_teste "$DESCRICAO" "$COMANDO"
-done
-
-print_line
 echo "Teste /card/update"
 for TESTE in "${TESTES_UPDATE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
@@ -122,6 +114,14 @@ for TESTE in "${TESTES_MOVE[@]}"; do
     executar_teste "$DESCRICAO" "$COMANDO"
 done
 
+print_line
+echo "Teste /card/delete"
+for TESTE in "${TESTES_DELETE[@]}"; do
+    DESCRICAO="${TESTE%%|*}"
+    COMANDO="${TESTE##*|}"
+    executar_teste "$DESCRICAO" "$COMANDO"
+done
+
 # Resumo dos testes
 print_line
 echo "($NUM_TESTES_SUCESSO/$NUM_TESTES_TOTAL) testes passaram com sucesso."
@@ -130,6 +130,3 @@ if [ $NUM_TESTES_SUCESSO -eq $NUM_TESTES_TOTAL ]; then
 else
     exit 1
 fi
-
-
-
