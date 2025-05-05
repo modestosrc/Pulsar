@@ -27,7 +27,7 @@ jobs:
       - name: Iniciar aplicação
         run: |
           nohup java -jar backend/pulsar/target/*.jar &
-          sleep 30
+          sleep 10
 
       - name: Rodar testes com script
         run: |

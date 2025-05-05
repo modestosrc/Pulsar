@@ -28,6 +28,7 @@ echo "✅ Token JWT obtido!"
 echo ""
 
 # Função para executar testes
+NUM_TESTES_SUCESSO=0
 executar_teste() {
     local DESCRICAO=$1
     local COMANDO=$2
@@ -37,6 +38,8 @@ executar_teste() {
 
     if [ "$HTTP_STATUS" -eq 200 ]; then
         echo " Sucesso (HTTP $HTTP_STATUS)"
+        NUM_TESTES_SUCESSO=$((NUM_TESTES_SUCESSO + 1))
+
     else
         echo " Falha (HTTP $HTTP_STATUS)"
     fi
@@ -72,7 +75,6 @@ declare -a TESTES_MOVE=(
 
 # Contar numero de testes:
 NUM_TESTES_TOTAL=$(( ${#TESTES_CREATE[@]} + ${#TESTES_GET[@]} + ${#TESTES_DELETE[@]} + ${#TESTES_UPDATE[@]} + ${#TESTES_MOVE[@]} ))
-NUM_TESTES_SUCESSO=0
 
 print_line() {
     echo "----------------------------------------"
@@ -86,9 +88,6 @@ for TESTE in "${TESTES_CREATE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
     executar_teste "$DESCRICAO" "$COMANDO"
-    if [[ $? -eq 0 ]]; then
-        ((NUM_TESTES_SUCESSO++))
-    fi
 done
 
 print_line
@@ -97,9 +96,6 @@ for TESTE in "${TESTES_GET[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
     executar_teste "$DESCRICAO" "$COMANDO"
-    if [[ $? -eq 0 ]]; then
-        ((NUM_TESTES_SUCESSO++))
-    fi
 done
 
 print_line
@@ -108,9 +104,6 @@ for TESTE in "${TESTES_DELETE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
     executar_teste "$DESCRICAO" "$COMANDO"
-    if [[ $? -eq 0 ]]; then
-        ((NUM_TESTES_SUCESSO++))
-    fi
 done
 
 print_line
@@ -119,9 +112,6 @@ for TESTE in "${TESTES_UPDATE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
     executar_teste "$DESCRICAO" "$COMANDO"
-    if [[ $? -eq 0 ]]; then
-        ((NUM_TESTES_SUCESSO++))
-    fi
 done
 
 print_line
@@ -130,9 +120,6 @@ for TESTE in "${TESTES_MOVE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
     executar_teste "$DESCRICAO" "$COMANDO"
-    if [[ $? -eq 0 ]]; then
-        ((NUM_TESTES_SUCESSO++))
-    fi
 done
 
 # Resumo dos testes
