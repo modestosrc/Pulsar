@@ -1,4 +1,5 @@
 col_*
+*.db
 
 HELP.md
 target/

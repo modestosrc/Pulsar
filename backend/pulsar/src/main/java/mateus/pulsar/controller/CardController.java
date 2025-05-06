@@ -69,12 +69,19 @@ public class CardController {
             @RequestParam(value = "newCol") int coln2,
             @RequestParam(value = "index") int index,
             @RequestParam(value = "newIndex") int newIndex) {
-        Col col = new Col(coln, "Col " + coln, "test_user", 0);
-        Col col2 = new Col(coln2, "Col " + coln2, "test_user", 0);
-        col2.addCard(col.getCard(index));
-        col2.moveCard((col2.getCardCount() - 1), newIndex);
-        col.removeCard(index);
-        System.out.println("Card moved from column " + coln + ": index " + index + " to column " + coln2 + ": index " + newIndex);
+        if (coln == coln2) {
+            Col col = new Col(coln, "Col " + coln, "test_user", 0);
+            col.moveCard(index, newIndex);
+            System.out.println("Card moved in column " + coln + ": index " + index + " to index " + newIndex);
+        } else {
+            Col col = new Col(coln, "Col " + coln, "test_user", 0);
+            Col col2 = new Col(coln2, "Col " + coln2, "test_user", 0);
+            col2.addCard(col.getCard(index));
+            col2.moveCard((col2.getCardCount() - 1), newIndex);
+            col.removeCard(index);
+            System.out.println("Card moved from column " + coln + ": index " + index + " to column " + coln2
+                    + ": index " + newIndex);
+        }
     }
 
 }
