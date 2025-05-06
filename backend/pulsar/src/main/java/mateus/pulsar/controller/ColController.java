@@ -8,6 +8,7 @@ package mateus.pulsar.controller;
 import org.springframework.web.bind.annotation.*;
 import mateus.pulsar.model.Card;
 import mateus.pulsar.service.ColService;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
  * <h3>CardController pode ser usado com:</h3>
@@ -33,6 +34,7 @@ public class ColController {
         this.colService = ColService;
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/get")
     public String getCards(
             @RequestParam(value = "user", defaultValue = "test_user") String user,
@@ -40,6 +42,7 @@ public class ColController {
         return colService.getCol(user, coln).getCardAsJson();
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/create")
     public void createCard(
             @RequestParam(value = "user", defaultValue = "test_user") String user,
@@ -49,6 +52,7 @@ public class ColController {
 
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/delete")
     public void deleteCard(
             @RequestParam(value = "user", defaultValue = "test_user") String user,
@@ -57,6 +61,7 @@ public class ColController {
         colService.removeCard(user, colN, index);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/update")
     public void updateCard(
             @RequestParam(value = "user", defaultValue = "test_user") String user,
@@ -66,6 +71,7 @@ public class ColController {
         colService.setCardContent(user, colN, index, newContent);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/move")
     public void movecard(
             @RequestParam(value = "user", defaultValue = "test_user") String user,

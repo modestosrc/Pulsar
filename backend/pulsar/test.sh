@@ -46,31 +46,31 @@ executar_teste() {
     echo ""
 }
 
-# Lista de testes para /card/create
+# Lista de testes para /col/create
 declare -a TESTES_CREATE=(
-    "Criando card na coluna 0 (Teste 1)|curl -X POST '$API_URL/card/create?col=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste 1'"
-    "Criando card na coluna 1 (Teste 2)|curl -X POST '$API_URL/card/create?col=1' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste 2'"
+    "Criando card na coluna 0 (Teste 1)|curl -X POST '$API_URL/col/create?col=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste 1'"
+    "Criando card na coluna 1 (Teste 2)|curl -X POST '$API_URL/col/create?col=1' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste 2'"
 )
 
-# Lista de testes para /card/get
+# Lista de testes para /col/get
 declare -a TESTES_GET=(
-    "Obtendo cards da coluna 0|curl -X GET '$API_URL/card/get?col=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
-    "Obtendo cards da coluna 1|curl -X GET '$API_URL/card/get?col=1' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
+    "Obtendo cards da coluna 0|curl -X GET '$API_URL/col/get?col=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
+    "Obtendo cards da coluna 1|curl -X GET '$API_URL/col/get?col=1' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
 )
 
-# Lista de testes para /card/delete
+# Lista de testes para /col/delete
 declare -a TESTES_DELETE=(
-    "Deletando card 0 da coluna 1|curl -X DELETE '$API_URL/card/delete?col=1&index=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
+    "Deletando card 0 da coluna 1|curl -X DELETE '$API_URL/col/delete?col=1&index=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
 )
 
-# Lista de testes para /card/update
+# Lista de testes para /col/update
 declare -a TESTES_UPDATE=(
-    "Atualizando card 0 da coluna 0|curl -X PUT '$API_URL/card/update?col=0&index=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste Atualizado 1'"
+    "Atualizando card 0 da coluna 0|curl -X PUT '$API_URL/col/update?col=0&index=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste Atualizado 1'"
 )
 
-# Lista de testes para /card/move
+# Lista de testes para /col/move
 declare -a TESTES_MOVE=(
-    "Movendo card 0 da coluna 0 para coluna 1|curl -X PUT '$API_URL/card/move?col=0&newCol=1&index=0&newIndex=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
+    "Movendo card 0 da coluna 0 para coluna 1|curl -X PUT '$API_URL/col/move?col=0&newCol=1&index=0&newIndex=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
 )
 
 # Contar numero de testes:
@@ -83,7 +83,7 @@ print_line() {
 
 # Execução dos testes
 print_line
-echo "Teste /card/create"
+echo "Teste /col/create"
 for TESTE in "${TESTES_CREATE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
@@ -91,7 +91,7 @@ for TESTE in "${TESTES_CREATE[@]}"; do
 done
 
 print_line
-echo "Teste /card/get"
+echo "Teste /col/get"
 for TESTE in "${TESTES_GET[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
@@ -99,7 +99,7 @@ for TESTE in "${TESTES_GET[@]}"; do
 done
 
 print_line
-echo "Teste /card/update"
+echo "Teste /col/update"
 for TESTE in "${TESTES_UPDATE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
@@ -107,7 +107,7 @@ for TESTE in "${TESTES_UPDATE[@]}"; do
 done
 
 print_line
-echo "Teste /card/move"
+echo "Teste /col/move"
 for TESTE in "${TESTES_MOVE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
@@ -115,7 +115,7 @@ for TESTE in "${TESTES_MOVE[@]}"; do
 done
 
 print_line
-echo "Teste /card/delete"
+echo "Teste /col/delete"
 for TESTE in "${TESTES_DELETE[@]}"; do
     DESCRICAO="${TESTE%%|*}"
     COMANDO="${TESTE##*|}"
