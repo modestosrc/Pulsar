@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             connection = DriverManager.getConnection("jdbc:sqlite:user.db");
             statement = connection.createStatement();
             statement.setQueryTimeout(30); // set timeout to 30 sec.
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT, AUTHORITY TEXT)");
 
             passwordEncoder = new BCryptPasswordEncoder();
 
@@ -34,7 +34,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             if (rs.next() && rs.getInt(1) == 0) {
                 String defaultUsername = "test_user";
                 String defaultPassword = passwordEncoder.encode("1504");
-                statement.executeUpdate("INSERT INTO users (username, password) VALUES ('" + defaultUsername + "', '" + defaultPassword + "')");
+                String defaultAuthority = "ROLE_USER";
+                statement.executeUpdate("INSERT INTO users (username, password, AUTHORITY) VALUES ('" + defaultUsername
+                        + "', '" + defaultPassword + "', '" + defaultAuthority + "')");
             }
 
         } catch (SQLException e) {
@@ -51,10 +53,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 throw new UsernameNotFoundException("Usuário não encontrado");
             }
             String password = rs.getString("password");
+            String authority = rs.getString("AUTHORITY");
             return new User(
                     username,
                     password,
-                    List.of(new SimpleGrantedAuthority("ROLE_USER")));
+                    List.of(new SimpleGrantedAuthority(authority)));
         } catch (SQLException e) {
             System.out.println("Error loading user from database.");
             e.printStackTrace();

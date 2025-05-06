@@ -1,4 +1,3 @@
-
 package mateus.pulsar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody AuthRequest credentials) {
 
         String token = jwtService.generateToken(credentials);
-        System.out.println("Generated token: " + token);
         return ResponseEntity.ok(token);
     }
 }
