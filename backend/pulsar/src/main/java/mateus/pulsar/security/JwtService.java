@@ -6,6 +6,7 @@ import java.security.KeyPair;
 import java.util.Date;
 
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.KeyAlgorithm;
@@ -38,18 +39,37 @@ public class JwtService {
     }
 
     public String extractUsername(String token) {
-        return Jwts.parser()
-                .decryptWith(pair.getPrivate())
-                .build()
-                .parseEncryptedClaims(token)
-                .getPayload()
-                .getSubject();
+        try {
+            return Jwts.parser()
+                    .decryptWith(pair.getPrivate())
+                    .build()
+                    .parseEncryptedClaims(token)
+                    .getPayload()
+                    .getSubject();
+        } catch (Exception e) {
+            System.out.println("Token inválido: " + e.getMessage());
+            return null;
+        }
     }
 
     public boolean isTokenValid(String token) {
         try {
             String username = extractUsername(token);
-            return userDetailsService.doesUserExist(username) && !isTokenExpired(token);
+            if (username == null) {
+                return false;
+            }
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            return isTokenValid(token, userDetails);
+        } catch (Exception e) {
+            System.out.println("Token inválido: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        try {
+            String username = extractUsername(token);
+            return username != null && username.equals(userDetails.getUsername()) && !isTokenExpired(token);
         } catch (Exception e) {
             System.out.println("Token inválido: " + e.getMessage());
             return false;
