@@ -51,6 +51,7 @@ public class JwtService {
             String username = extractUsername(token);
             return userDetailsService.doesUserExist(username) && !isTokenExpired(token);
         } catch (Exception e) {
+            System.out.println("Token inválido: " + e.getMessage());
             return false;
         }
     }
