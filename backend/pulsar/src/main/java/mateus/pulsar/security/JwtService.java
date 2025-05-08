@@ -5,6 +5,7 @@ import java.security.PublicKey;
 import java.security.KeyPair;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,6 +23,7 @@ public class JwtService {
     KeyAlgorithm<PublicKey, PrivateKey> alg = Jwts.KEY.RSA_OAEP_256;
     AeadAlgorithm enc = Jwts.ENC.A256GCM;
 
+    @Autowired
     private final UserDetailsServiceImpl userDetailsService  = new UserDetailsServiceImpl();
 
     public String generateToken(AuthRequest credentials) {

@@ -48,29 +48,29 @@ executar_teste() {
 
 # Lista de testes para /card/create
 declare -a TESTES_CREATE=(
-    "Criando card na coluna 0 (Teste 1)|curl -X POST '$API_URL/card/create?col=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste 1'"
-    "Criando card na coluna 1 (Teste 2)|curl -X POST '$API_URL/card/create?col=1' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste 2'"
+    "Criando card na coluna 0 (Teste 1)|curl -X POST '$API_URL/col/create?col=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste 1'"
+    "Criando card na coluna 1 (Teste 2)|curl -X POST '$API_URL/col/create?col=1' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste 2'"
 )
 
 # Lista de testes para /card/get
 declare -a TESTES_GET=(
-    "Obtendo cards da coluna 0|curl -X GET '$API_URL/card/get?col=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
-    "Obtendo cards da coluna 1|curl -X GET '$API_URL/card/get?col=1' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
+    "Obtendo cards da coluna 0|curl -X GET '$API_URL/col/get?col=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
+    "Obtendo cards da coluna 1|curl -X GET '$API_URL/col/get?col=1' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
 )
 
 # Lista de testes para /card/delete
 declare -a TESTES_DELETE=(
-    "Deletando card 0 da coluna 1|curl -X DELETE '$API_URL/card/delete?col=1&index=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
+    "Deletando card 0 da coluna 1|curl -X DELETE '$API_URL/col/delete?col=1&index=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
 )
 
 # Lista de testes para /card/update
 declare -a TESTES_UPDATE=(
-    "Atualizando card 0 da coluna 0|curl -X PUT '$API_URL/card/update?col=0&index=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste Atualizado 1'"
+    "Atualizando card 0 da coluna 0|curl -X PUT '$API_URL/col/update?col=0&index=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT' -d 'Teste Atualizado 1'"
 )
 
 # Lista de testes para /card/move
 declare -a TESTES_MOVE=(
-    "Movendo card 0 da coluna 0 para coluna 1|curl -X PUT '$API_URL/card/move?col=0&newCol=1&index=0&newIndex=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
+    "Movendo card 0 da coluna 0 para coluna 1|curl -X PUT '$API_URL/col/move?col=0&newCol=1&index=0&newIndex=0' -H 'Content-Type: text/plain' -H 'Authorization: Bearer $JWT'"
 )
 
 # Contar numero de testes:

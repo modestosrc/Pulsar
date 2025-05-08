@@ -10,11 +10,12 @@ public class Col {
     private int order;
     private Card[] cards;
 
-    public Col(int id, String name, String user, int order) {
+    public Col(int id, String name, String user, int order, Card[] cards) {
         this.id = id;
         this.name = name;
         this.user = user;
         this.order = order;
+        this.cards = cards;
     }
 
     public Card getCard(int index) {

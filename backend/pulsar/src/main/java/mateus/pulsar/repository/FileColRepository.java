@@ -1,6 +1,7 @@
 package mateus.pulsar.repository;
 
 import mateus.pulsar.model.Col;
+import mateus.pulsar.model.Card;
 
 import org.springframework.stereotype.Repository;
 
@@ -40,11 +41,12 @@ public class FileColRepository implements ColRepository {
         }
         File file = new File(userDir, "col_" + colId + ".json");
         if (!file.exists()) {
-            return new Col(colId, "Col " + colId, user, 0);
+            return new Col(colId, "Col " + colId, user, 0, new Card[0]);
         }
         try (FileReader reader = new FileReader(file)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            return gson.fromJson(reader, Col.class);
+            Col col = gson.fromJson(reader, Col.class);
+            return col;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
