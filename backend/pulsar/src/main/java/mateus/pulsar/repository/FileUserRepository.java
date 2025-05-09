@@ -21,7 +21,7 @@ public class FileUserRepository implements UserRepository {
     public FileUserRepository() {
         try {
             // Connect to SQLite database
-            String url = "jdbc:sqlite:src/main/resources/database.db";
+            String url = "jdbc:sqlite:database.db";
             connection = DriverManager.getConnection(url);
             statement = connection.createStatement();
             try {

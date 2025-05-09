@@ -63,7 +63,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public void createDefaultUser() {
         try {
             if (!doesUserExist("test_user")) {
-                User user = new User("test_user", passwordEncoder.encode("1504"), List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
+                User user = new User("test_user", passwordEncoder.encode("1504"), List.of(new SimpleGrantedAuthority("ROLE_USER")));
                 userRepository.save(user);
             }
         } catch (Exception e) {
