@@ -41,7 +41,7 @@ public class FileColRepository implements ColRepository {
         }
         File file = new File(userDir, "col_" + colId + ".json");
         if (!file.exists()) {
-            return new Col(colId, "Col " + colId, user, 0, new Card[0]);
+            return new Col(colId, "Col " + colId, user, new Card[0]);
         }
         try (FileReader reader = new FileReader(file)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -52,5 +52,40 @@ public class FileColRepository implements ColRepository {
             return null;
         }
 
+    }
+
+    @Override
+    public Col[] loadAll(String user) {
+        File userDir = new File(user);
+        if (!userDir.exists()) {
+            userDir.mkdirs();
+            return new Col[0];
+        }
+        File[] files = userDir.listFiles((_, name) -> name.endsWith(".json"));
+        if (files == null || files.length == 0) {
+            return new Col[0];
+        }
+        Col[] cols = new Col[files.length];
+        for (int i = 0; i < files.length; i++) {
+            try (FileReader reader = new FileReader(files[i])) {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                cols[i] = gson.fromJson(reader, Col.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return cols;
+    }
+
+    @Override
+    public void delete(Col col) {
+        File userDir = new File(col.getUser());
+        if (!userDir.exists()) {
+            userDir.mkdirs();
+        }
+        File file = new File(userDir, "col_" + col.getId() + ".json");
+        if (file.exists()) {
+            file.delete();
+        }
     }
 }

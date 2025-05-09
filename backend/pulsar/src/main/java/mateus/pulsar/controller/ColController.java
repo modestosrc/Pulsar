@@ -6,7 +6,7 @@
 package mateus.pulsar.controller;
 
 import org.springframework.web.bind.annotation.*;
-import mateus.pulsar.model.Card;
+import mateus.pulsar.model.Col;
 import mateus.pulsar.service.ColService;
 
 /**
@@ -24,7 +24,7 @@ import mateus.pulsar.service.ColService;
  * "Card content"
  */
 @RestController
-@RequestMapping("/col")
+@RequestMapping("/{user}")
 public class ColController {
 
     private final ColService colService;
@@ -33,47 +33,38 @@ public class ColController {
         this.colService = ColService;
     }
 
-    @GetMapping("/get")
-    public String getCards(
-            @RequestParam(value = "user", defaultValue = "test_user") String user,
-            @RequestParam(value = "col") int coln) {
-        return colService.getCol(user, coln).getCardAsJson();
+    @GetMapping("/coluna")
+    Col[] getAllCols(@PathVariable String user) {
+        return colService.getAllCols(user);
     }
 
-    @PostMapping("/create")
-    public void createCard(
-            @RequestParam(value = "user", defaultValue = "test_user") String user,
-            @RequestParam(value = "col") int colN,
-            @RequestBody String cardContent) {
-            colService.addCard(user, colN, new Card(cardContent));
-
+    @GetMapping("/coluna/{n}")
+    Col getCards(
+            @PathVariable String user,
+            @PathVariable int n) {
+        return colService.getCol(user, n);
     }
 
-    @DeleteMapping("/delete")
-    public void deleteCard(
-            @RequestParam(value = "user", defaultValue = "test_user") String user,
-            @RequestParam(value = "col", defaultValue = "0") int colN,
-            @RequestParam(value = "index", defaultValue = "0") int index) {
-        colService.removeCard(user, colN, index);
+    @PostMapping("/coluna")
+    Col createCard(
+            @PathVariable String user) {
+        Col col = colService.createCol(user);
+        return col;
     }
 
-    @PutMapping("/update")
-    public void updateCard(
-            @RequestParam(value = "user", defaultValue = "test_user") String user,
-            @RequestParam(value = "col", defaultValue = "0") int colN,
-            @RequestParam(value = "index", defaultValue = "0") int index,
-            @RequestBody String newContent) {
-        colService.setCardContent(user, colN, index, newContent);
+    @PutMapping("/coluna/{n}")
+    Col setCard(
+            @PathVariable String user,
+            @PathVariable int n,
+            @RequestBody Col col) {
+        colService.setCol(user, n, col);
+        return col;
     }
 
-    @PutMapping("/move")
-    public void movecard(
-            @RequestParam(value = "user", defaultValue = "test_user") String user,
-            @RequestParam(value = "col") int coln,
-            @RequestParam(value = "newCol") int coln2,
-            @RequestParam(value = "index") int index,
-            @RequestParam(value = "newIndex") int newIndex) {
-        colService.moveCardToCol(user, coln, coln2, index, newIndex);
+    @DeleteMapping("/coluna/{n}")
+    void deleteCard(
+            @PathVariable String user,
+            @PathVariable int n) {
+        colService.deleteCol(user, n);
     }
-
 }

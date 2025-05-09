@@ -7,14 +7,12 @@ public class Col {
     private int id;
     private String name;
     private String user;
-    private int order;
     private Card[] cards;
 
-    public Col(int id, String name, String user, int order, Card[] cards) {
+    public Col(int id, String name, String user, Card[] cards) {
         this.id = id;
         this.name = name;
         this.user = user;
-        this.order = order;
         this.cards = cards;
     }
 
