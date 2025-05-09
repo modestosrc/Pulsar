@@ -23,20 +23,26 @@ public class FileUserRepository implements UserRepository {
             connection = DriverManager.getConnection("jdbc:sqlite:user.db");
             statement = connection.createStatement();
             statement.setQueryTimeout(30); // set timeout to 30 sec.
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT, AUTHORITY TEXT)");
-
-            //Insert default user if the table is empty
-            ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM users");
-            if (rs.next() && rs.getInt(1) == 0) {
-                String defaultUsername = "test_user";
-                String defaultPassword = "1504";
-                String defaultAuthority = "ROLE_USER";
-                statement.executeUpdate("INSERT INTO users (username, password, AUTHORITY) VALUES ('" + defaultUsername
-                        + "', '" + defaultPassword + "', '" + defaultAuthority + "')");
-            }
+            createTableIfNotExists();
+            insertDefaultUserIfTableEmpty();
         } catch (SQLException e) {
             System.out.println("Connection to SQLite has failed.");
             e.printStackTrace();
+        }
+    }
+
+    private void createTableIfNotExists() throws SQLException {
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT, AUTHORITY TEXT)");
+    }
+
+    private void insertDefaultUserIfTableEmpty() throws SQLException {
+        ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM users");
+        if (rs.next() && rs.getInt(1) == 0) {
+            String defaultUsername = "test_user";
+            String defaultPassword = "1504";
+            String defaultAuthority = "ROLE_USER";
+            statement.executeUpdate("INSERT INTO users (username, password, AUTHORITY) VALUES ('" + defaultUsername
+                    + "', '" + defaultPassword + "', '" + defaultAuthority + "')");
         }
     }
 
