@@ -1,11 +1,14 @@
 package mateus.pulsar.service;
 
+import java.util.List;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import mateus.pulsar.repository.FileUserRepository;
@@ -18,6 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public UserDetailsServiceImpl(FileUserRepository userRepository) {
         this.userRepository = userRepository;
+        createDefaultUser();
     }
 
     public PasswordEncoder getPasswordEncoder() {
@@ -53,6 +57,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public void createDefaultUser() {
+        try {
+            if (!doesUserExist("test_user")) {
+                User user = new User("test_user", passwordEncoder.encode("1504"), List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
+                userRepository.save(user);
+            }
+        } catch (Exception e) {
+            System.out.println("Error creating default user");
+            e.printStackTrace();
         }
     }
 }

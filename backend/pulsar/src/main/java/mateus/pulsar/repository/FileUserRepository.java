@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -18,21 +17,18 @@ public class FileUserRepository implements UserRepository {
     private Connection connection;
     private Statement statement;
 
+
     public FileUserRepository() {
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:user.db");
+            // Connect to SQLite database
+            String url = "jdbc:sqlite:src/main/resources/database.db";
+            connection = DriverManager.getConnection(url);
             statement = connection.createStatement();
-            statement.setQueryTimeout(30); // set timeout to 30 sec.
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT, AUTHORITY TEXT)");
-
-            //Insert default user if the table is empty
-            ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM users");
-            if (rs.next() && rs.getInt(1) == 0) {
-                String defaultUsername = "test_user";
-                String defaultPassword = "1504";
-                String defaultAuthority = "ROLE_USER";
-                statement.executeUpdate("INSERT INTO users (username, password, AUTHORITY) VALUES ('" + defaultUsername
-                        + "', '" + defaultPassword + "', '" + defaultAuthority + "')");
+            try {
+                createDb();
+            } catch (Exception e) {
+                System.out.println("Error creating database");
+                e.printStackTrace();
             }
         } catch (SQLException e) {
             System.out.println("Connection to SQLite has failed.");
@@ -41,7 +37,7 @@ public class FileUserRepository implements UserRepository {
     }
 
     @Override
-    public void save(User user)  throws Exception {
+    public void save(User user) throws Exception {
         try {
             String username = user.getUsername();
             String password = user.getPassword();
@@ -70,6 +66,20 @@ public class FileUserRepository implements UserRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new Exception("Erro ao carregar usuário");
+        }
+    }
+
+    @Override
+    public void createDb() throws Exception {
+        try {
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS users ("
+                    + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "username TEXT NOT NULL UNIQUE, "
+                    + "password TEXT NOT NULL, "
+                    + "AUTHORITY TEXT NOT NULL)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Erro ao criar banco de dados");
         }
     }
 }
