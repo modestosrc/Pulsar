@@ -23,8 +23,12 @@ public class JwtService {
     KeyAlgorithm<PublicKey, PrivateKey> alg = Jwts.KEY.RSA_OAEP_256;
     AeadAlgorithm enc = Jwts.ENC.A256GCM;
 
+    private final UserDetailsServiceImpl userDetailsService;
+
     @Autowired
-    private final UserDetailsServiceImpl userDetailsService  = new UserDetailsServiceImpl();
+    public JwtService(UserDetailsServiceImpl userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     public String generateToken(AuthRequest credentials) {
         String username = credentials.getUsername();
