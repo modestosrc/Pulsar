@@ -3,13 +3,13 @@ package mateus.pulsar.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class Col {
+public class Column {
     private int id;
     private String name;
     private String user;
     private Card[] cards;
 
-    public Col(int id, String name, String user, Card[] cards) {
+    public Column(int id, String name, String user, Card[] cards) {
         this.id = id;
         this.name = name;
         this.user = user;

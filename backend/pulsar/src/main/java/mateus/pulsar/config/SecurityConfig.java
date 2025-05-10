@@ -15,19 +15,44 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import mateus.pulsar.security.JwtAuthFilter;
 import mateus.pulsar.service.UserDetailsServiceImpl;
 
+/**
+ * Security configuration class for the application.
+ * <p>
+ * This class configures the security settings for the application, including
+ * authentication and authorization.
+ */
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    /**
+     * The JwtAuthFilter instance used for JWT authentication.
+     */
     private final JwtAuthFilter jwtAuthFilter;
+    /**
+     * The UserDetailsServiceImpl instance used for user details retrieval.
+     */
     private final UserDetailsServiceImpl userDetailsService;
 
+    /**
+     * Constructor for SecurityConfig.
+     *
+     * @param jwtAuthFilter      The JwtAuthFilter instance to be used.
+     * @param userDetailsService The UserDetailsServiceImpl instance to be used.
+     */
     public SecurityConfig(JwtAuthFilter jwtAuthFilter,
             UserDetailsServiceImpl userDetailsService) {
         this.jwtAuthFilter = jwtAuthFilter;
         this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * Configures the security filter chain for the application.
+     *
+     * @param http The HttpSecurity instance to be configured.
+     * @return The configured SecurityFilterChain.
+     * @throws Exception If an error occurs during configuration.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -42,6 +67,12 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * Configures the authentication provider for the application.
+     *
+     * @param userDetailsService The UserDetailsServiceImpl instance to be used.
+     * @return The configured AuthenticationProvider.
+     */
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsServiceImpl userDetailsService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -50,6 +81,13 @@ public class SecurityConfig {
         return provider;
     }
 
+    /**
+     * Configures the authentication manager for the application.
+     *
+     * @param config The AuthenticationConfiguration instance to be used.
+     * @return The configured AuthenticationManager.
+     * @throws Exception If an error occurs during configuration.
+     */
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration config) throws Exception {
