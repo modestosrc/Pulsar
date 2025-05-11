@@ -22,14 +22,14 @@ jobs:
           cache: maven
 
       - name: Build with Maven
-        run: mvn -B package --file backend/pulsar/pom.xml
+        run: mvn -B package --file backend/pom.xml
 
       - name: Iniciar aplicação
         run: |
-          nohup java -jar backend/pulsar/target/*.jar &
+          nohup java -jar backend/target/*.jar &
           sleep 10
 
       - name: Rodar testes com script
         run: |
-          chmod +x backend/pulsar/test.sh
-          backend/pulsar/test.sh
+          chmod +x backend/test.sh
+          backend/test.sh
