@@ -1,5 +1,4 @@
 ### PULSAR
-[![Java CI](https://github.com/modestosrc/Pulsar/actions/workflows/maven.yml/badge.svg)](https://github.com/modestosrc/Pulsar/actions/workflows/maven.yml)
 
 #### TODO:
 
