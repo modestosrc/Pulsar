@@ -17,7 +17,6 @@ public class FileUserRepository implements UserRepository {
     private Connection connection;
     private Statement statement;
 
-
     public FileUserRepository() {
         try {
             // Connect to SQLite database
@@ -50,6 +49,34 @@ public class FileUserRepository implements UserRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new Exception("Erro ao salvar usuário");
+        }
+    }
+
+    @Override
+    public void updateUser(String username, User user) throws Exception {
+        try {
+            String newUsername = user.getUsername();
+            String password = user.getPassword();
+            String authority = user.getAuthorities().stream()
+                    .findFirst()
+                    .orElseThrow(() -> new Exception("Authority not found"))
+                    .getAuthority();
+            statement.executeUpdate("UPDATE users SET username = '" + newUsername + "', password = '" + password
+                    + "', AUTHORITY = '" + authority
+                    + "' WHERE username = '" + username + "'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Erro ao atualizar usuário");
+        }
+    }
+
+    @Override
+    public void deleteUser(String username) throws Exception {
+        try {
+            statement.executeUpdate("DELETE FROM users WHERE username = '" + username + "'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Erro ao deletar usuário");
         }
     }
 

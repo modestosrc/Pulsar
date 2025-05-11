@@ -2,6 +2,7 @@ package mateus.pulsar.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -25,13 +26,7 @@ import mateus.pulsar.service.UserDetailsServiceImpl;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    /**
-     * The JwtAuthFilter instance used for JWT authentication.
-     */
     private final JwtAuthFilter jwtAuthFilter;
-    /**
-     * The UserDetailsServiceImpl instance used for user details retrieval.
-     */
     private final UserDetailsServiceImpl userDetailsService;
 
     /**
@@ -61,6 +56,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user").permitAll()
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider(userDetailsService))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
