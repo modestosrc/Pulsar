@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import mateus.pulsar.repository.FileUserRepository;
+import mateus.pulsar.model.dto.UserDto;
 
 /**
  * Service for managing user details and authentication.
@@ -108,13 +109,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * @param user The UserDetails object representing the new user.
      * @return The newly created UserDetails object.
      */
-    public UserDetails createUser(UserDetails user) {
+    public UserDetails createUser(UserDto user) {
         try {
             if (doesUserExist(user.getUsername())) {
                 throw new Exception("User already exists");
             }
             User newUser = new User(user.getUsername(), passwordEncoder.encode(user.getPassword()),
-                    user.getAuthorities());
+                    List.of(new SimpleGrantedAuthority("ROLE_USER")));
             userRepository.save(newUser);
             return newUser;
         } catch (Exception e) {
@@ -128,16 +129,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      * Updates an existing user in the system.
      *
      * @param username The username of the user to be updated.
-     * @param user     The UserDetails object containing the updated user information.
+     * @param user     The UserDetails object containing the updated user
+     *                 information.
      * @return The updated UserDetails object.
      */
-    public UserDetails setUser(String username, UserDetails user) {
+    public UserDetails setUser(String username, UserDto user) {
         try {
             if (!doesUserExist(username)) {
                 throw new Exception("User does not exist");
             }
             User updatedUser = new User(user.getUsername(), passwordEncoder.encode(user.getPassword()),
-                    user.getAuthorities());
+                    List.of(new SimpleGrantedAuthority("ROLE_USER")));
             userRepository.save(updatedUser);
             return updatedUser;
         } catch (Exception e) {

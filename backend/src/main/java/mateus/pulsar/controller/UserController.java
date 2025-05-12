@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import mateus.pulsar.model.dto.UserDto;
 import mateus.pulsar.service.UserDetailsServiceImpl;
 
 /**
@@ -47,7 +48,7 @@ public class UserController {
      * @return The newly created UserDetails object.
      */
     @PostMapping("/user")
-    UserDetails createUser(@RequestBody UserDetails user) {
+    UserDetails createUser(@RequestBody UserDto user) {
         return userDetailsService.createUser(user);
     }
 
@@ -59,7 +60,7 @@ public class UserController {
      * @return The updated UserDetails object.
      */
     @PutMapping("/{user}/user")
-    UserDetails updateUser(@PathVariable String user, @RequestBody UserDetails userDetails) {
+    UserDetails updateUser(@PathVariable String user, @RequestBody UserDto userDetails) {
         return userDetailsService.setUser(user, userDetails);
     }
 

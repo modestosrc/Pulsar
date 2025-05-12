@@ -22,8 +22,8 @@ public class ColumnService {
         return columnRepository.loadAll(user);
     }
 
-    public Column createColumn(String user) {
-        Column column = new Column(0, "Col " + 0, user, new Card[0]);
+    public Column createColumn(String user, int columnN) {
+        Column column = new Column(columnN, "Col " + columnN, user, new Card[0]);
         columnRepository.save(column);
         return column;
     }

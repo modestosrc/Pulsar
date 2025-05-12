@@ -24,6 +24,9 @@ public class FileColumnRepository implements ColumnRepository {
             System.out.println("Diretório criado: " + userDir.getAbsolutePath());
         }
         File file = new File(userDir, "col_" + column.getId() + ".json");
+        if (file.exists()) {
+            return;
+        }
         try (FileWriter writer = new FileWriter(file)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(column);

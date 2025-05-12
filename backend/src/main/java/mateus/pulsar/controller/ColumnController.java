@@ -47,7 +47,7 @@ public class ColumnController {
      * @return The Column object representing the user's column.
      */
     @GetMapping("/coluna/{n}")
-    Column getCards(
+    Column getColumn(
             @PathVariable String user,
             @PathVariable int n) {
         return columnService.getColumn(user, n);
@@ -59,10 +59,10 @@ public class ColumnController {
      * @param user The username of the user for whom the column is to be created.
      * @return The newly created Column object.
      */
-    @PostMapping("/coluna")
-    Column createCard(
-            @PathVariable String user) {
-        Column column = columnService.createColumn(user);
+    @PostMapping("/coluna/{n}")
+    Column createColumn(
+            @PathVariable String user, @PathVariable int  n) {
+        Column column = columnService.createColumn(user, n);
         return column;
     }
 
@@ -75,7 +75,7 @@ public class ColumnController {
      * @return The updated Column object.
      */
     @PutMapping("/coluna/{n}")
-    Column setCard(
+    Column setColumn(
             @PathVariable String user,
             @PathVariable int n,
             @RequestBody Column column) {
@@ -90,7 +90,7 @@ public class ColumnController {
      * @param n    The index of the column to be deleted.
      */
     @DeleteMapping("/coluna/{n}")
-    void deleteCard(
+    void deleteColumn(
             @PathVariable String user,
             @PathVariable int n) {
         columnService.deleteColumn(user, n);
