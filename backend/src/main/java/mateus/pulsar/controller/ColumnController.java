@@ -10,6 +10,7 @@ import mateus.pulsar.service.ColumnService;
  * This controller handles HTTP requests related to columns, including retrieving,
  * creating, updating, and deleting columns.
  */
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/{user}")
 public class ColumnController {

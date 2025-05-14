@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import mateus.pulsar.model.dto.UserDto;
 import mateus.pulsar.service.UserDetailsServiceImpl;
@@ -19,6 +20,7 @@ import mateus.pulsar.service.UserDetailsServiceImpl;
  * This controller handles HTTP requests related to user management, including
  * retrieving, creating, updating, and deleting users.
  */
+@CrossOrigin(origins = "*")
 @RestController
 public class UserController {
 
