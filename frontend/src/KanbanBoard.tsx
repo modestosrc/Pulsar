@@ -10,8 +10,10 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ token, username }) => {
     const [columns, setColumns] = useState<Column[]>([]);
 
     useEffect(() => {
-        fetch('http://localhost:8080/$username/columns', {
+        fetch(`http://localhost:8080/${username}/coluna`, {
+            method: 'GET',
             headers: {
+                ContentType: 'application/json',
                 Authorization: `Bearer ${token}`,
             },
             credentials: 'include',

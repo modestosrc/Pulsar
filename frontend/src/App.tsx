@@ -7,6 +7,7 @@ const App: React.FC = () => {
     const [username, setUsername] = useState<string | null>(null);
 
     const handleLogin = (token: string, username: string) => {
+        console.log('Login successful:', token, username);
         setToken(token);
         setUsername(username);
     };

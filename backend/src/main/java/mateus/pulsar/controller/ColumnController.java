@@ -7,10 +7,10 @@ import mateus.pulsar.service.ColumnService;
 /**
  * Controller for managing columns.
  * <p>
- * This controller handles HTTP requests related to columns, including retrieving,
+ * This controller handles HTTP requests related to columns, including
+ * retrieving,
  * creating, updating, and deleting columns.
  */
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/{user}")
 public class ColumnController {
@@ -62,7 +62,7 @@ public class ColumnController {
      */
     @PostMapping("/coluna/{n}")
     Column createColumn(
-            @PathVariable String user, @PathVariable int  n) {
+            @PathVariable String user, @PathVariable int n) {
         Column column = columnService.createColumn(user, n);
         return column;
     }

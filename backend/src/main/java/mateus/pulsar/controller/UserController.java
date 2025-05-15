@@ -20,7 +20,6 @@ import mateus.pulsar.service.UserDetailsServiceImpl;
  * This controller handles HTTP requests related to user management, including
  * retrieving, creating, updating, and deleting users.
  */
-@CrossOrigin(origins = "*")
 @RestController
 public class UserController {
 

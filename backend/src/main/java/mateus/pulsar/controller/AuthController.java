@@ -16,7 +16,6 @@ import mateus.pulsar.security.JwtService;
  * <p>
  * This controller provides endpoints for user login and token generation.
  */
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -38,6 +37,7 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody AuthRequest credentials) {
 
         String token = jwtService.generateToken(credentials);
-        return ResponseEntity.ok("{token: " + token + "}" + "{username: " + credentials.getUsername() + "}");
+        String response = "{\"token\": \"" + token + "\", \"username\": \"" + credentials.getUsername() + "\"}";
+        return ResponseEntity.ok(response);
     }
 }
